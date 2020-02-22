@@ -13,6 +13,9 @@
   "repository": "<fill-your-repository-here>",
   "dependencies": {
     "@nativescript/theme": "~2.3.0",
+    "nativescript-fingerprint-auth": "^7.0.2",
+    "nativescript-geolocation": "^5.1.0",
+    "nativescript-plugin-firebase": "^10.4.0",
     "nativescript-ui-sidedrawer": "~8.0.0",
     "nativescript-vue": "~2.4.0",
     "rxjs": "^6.4.0",

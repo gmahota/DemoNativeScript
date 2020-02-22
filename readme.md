@@ -1,0 +1,1 @@
+https://market.nativescript.org/plugins/nativescript-plugin-firebase-mlkit-unofficial

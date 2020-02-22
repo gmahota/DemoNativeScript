@@ -9,6 +9,9 @@ platforms/
 !webpack.config.js
 *.css
 
+#Android Nativescript - Google Services
+app/App_Resources/google-services.json
+
 # Logs
 logs
 *.log
