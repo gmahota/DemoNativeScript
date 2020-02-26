@@ -10,11 +10,14 @@
 // create a file named before-plugins.gradle in the current directory and place it there
 
 android {
-  defaultConfig {
-    minSdkVersion 17
+  defaultConfig {  
     generatedDensities = []
+    applicationId = "com.mahota.agnus"
   }
-  aaptOptions {
-    additionalParameters "--no-version-vectors"
+  aaptOptions {  
+    additionalParameters "--no-version-vectors"  
   }
-}
+  project.ext {
+    googlePlayServicesVersion = "15.0.0"
+  } 
+} 

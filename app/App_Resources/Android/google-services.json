@@ -1,39 +1,37 @@
 {
   "project_info": {
-    "project_number": "176080762547",
+    "project_number": "703802478357",
     "firebase_url": "https://mahotacrm.firebaseio.com",
-    "project_id": "n-plugin-test-firestore",
-    "storage_bucket": "n-plugin-test-firestore.appspot.com"
+    "project_id": "mahotacrm",
+    "storage_bucket": "mahotacrm.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:176080762547:android:fbe95ab1f255d884",
+        "mobilesdk_app_id": "1:703802478357:android:353f8a8344d081bd3c231c",
         "android_client_info": {
-          "package_name": "org.nativescript.firebasedemo.firestore"
+          "package_name": "com.mahota.agnus"
         }
       },
       "oauth_client": [
         {
-          "client_id": "176080762547-e030nqu3u61ntnq5d3jilip6ik6au4cq.apps.googleusercontent.com",
+          "client_id": "703802478357-oq7hlkf0f4ddkfo5lq1urt1n5cruuing.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCbzMMocv610ByMwPvcv2W0h45btMojqLw"
+          "current_key": "AIzaSyBYk5o6QHspWJLIQOY4fOxVt-Hy_wx6Rpw"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
+          "other_platform_oauth_client": [
+            {
+              "client_id": "703802478357-oq7hlkf0f4ddkfo5lq1urt1n5cruuing.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

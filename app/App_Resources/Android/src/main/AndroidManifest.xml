@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools" 
 	package="__PACKAGE__"
 	android:versionCode="10000"
 	android:versionName="1.0">
@@ -14,22 +15,23 @@
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 	<uses-permission android:name="android.permission.INTERNET"/>
 
+	<!-- for ML Kit -->
 	<uses-permission android:name="android.permission.CAMERA"/>
   	<uses-feature android:name="android.hardware.camera" android:required="false" />
  	<uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
 
-
-	<uses-sdk
-      android:minSdkVersion="17"
-      android:targetSdkVersion="__APILEVEL__"
-      tools:overrideLibrary="com.jesusm.kfingerprintmanager"/>
-
+	<uses-sdk android:minSdkVersion="23" android:targetSdkVersion="__APILEVEL__"/>
+	
 	<application
 		android:name="com.tns.NativeScriptApplication"
 		android:allowBackup="true"
 		android:icon="@drawable/icon"
 		android:label="@string/app_name"
 		android:theme="@style/AppTheme">
+
+		<meta-data
+                android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+                android:value="ocr" />
 
 		<activity
 			android:name="com.tns.NativeScriptActivity"
@@ -43,6 +45,14 @@
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
+
+			<!-- For Firebase Dynamic Links -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:host="firebasedemovue.page.link" android:scheme="https"/>
+            </intent-filter>
 		</activity>
 		<activity android:name="com.tns.ErrorReportActivity"/>
 	</application>

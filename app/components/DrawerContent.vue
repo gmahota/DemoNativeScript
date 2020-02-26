@@ -27,6 +27,11 @@
                         <Label col="0" text.decode="&#xf005;" class="nt-icon fas"></Label>
                         <Label col="1" text="Featured" class="p-r-10"></Label>
                     </GridLayout>
+
+                    <GridLayout columns="auto, *" :class="'nt-drawer__list-item' + (selectedPage === 'DemoFireBase' ? ' -selected': '')" @tap="onNavigationItemTap(DemoFireBase)">
+                        <Label col="0" text.decode="&#xf005;" class="nt-icon fas"></Label>
+                        <Label col="1" text="DemoFireBase" class="p-r-10"></Label>
+                    </GridLayout>
         
                     <StackLayout class="hr"></StackLayout>
 
@@ -45,8 +50,10 @@
     import Featured from "./Featured";
     import Search from "./Search";
     import Settings from "./Settings";
+    import DemoFireBase from "./DemoFireBase";
     import * as utils from "~/shared/utils";
     import SelectedPageService from "~/shared/selected-page-service";    
+    
     
     export default {
         mounted() {
@@ -60,6 +67,7 @@
                 Featured: Featured,
                 Search: Search,
                 Settings: Settings,
+                DemoFireBase:DemoFireBase,
                 selectedPage: ""
             };
         },
@@ -68,7 +76,8 @@
             Browse,
             Featured,
             Search,
-            Settings
+            Settings,
+            DemoFireBase
         },
         methods: {
             onNavigationItemTap(component) {

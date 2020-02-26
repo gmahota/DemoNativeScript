@@ -17,42 +17,43 @@
         @tap="onDrawerButtonTap"
         ios.position="left"
       ></ActionItem>
-      <Label class="action-bar-title" text="Home"></Label>
+      <Label class="action-bar-title" text="DemoFireBase"></Label>
     </ActionBar>
 
     <GridLayout class="page__content">
-      <Label class="page__content-icon fas" text.decode="&#xf015;"></Label>
+      <Label class="page__content-icon fas" text.decode="&#xf005;"></Label>
       <Label class="page__content-placeholder" :text="message"></Label>
-
       <Label class="message" :text="message" textWrap="true" horizontalAlignment="center"></Label>
     </GridLayout>
   </Page>
 </template>
 
 <script>
+import { inappmessaging } from "nativescript-plugin-firebase/inappmessaging";
+
 import * as utils from "~/shared/utils";
 import SelectedPageService from "../shared/selected-page-service";
-//import { inappmessaging } from "nativescript-plugin-firebase/inappmessaging";
 
 export default {
+  mounted() {
+    SelectedPageService.getInstance().updateSelectedPage("DemoFireBase");
+  },
   data() {
     return {
       message: "Fear not, young Skywalker"
     };
   },
-  created() {
-    // // wire up an 'onMessageClicked' callback
-    // inappmessaging.onMessageClicked(message => {
-    //   this.message = `Campaign ${message.campaignName} clicked`;
-    // });
 
-    // // 👉 .. and for fun, wire an 'onMessageImpression' callback so when know when the message is shown
-    // inappmessaging.onMessageImpression(message => {
-    //   this.message = `Campaign ${message.campaignName} seen`;
-    // });
-  },
-  mounted() {
-    SelectedPageService.getInstance().updateSelectedPage("Home");
+  created() {
+    // wire up an 'onMessageClicked' callback
+    inappmessaging.onMessageClicked(message => {
+      this.message = `Campaign ${message.campaignName} clicked`;
+    });
+
+    // 👉 .. and for fun, wire an 'onMessageImpression' callback so when know when the message is shown
+    inappmessaging.onMessageImpression(message => {
+      this.message = `Campaign ${message.campaignName} seen`;
+    });
   },
   computed: {
     message() {

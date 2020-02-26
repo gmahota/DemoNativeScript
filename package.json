@@ -1,6 +1,6 @@
 {
   "nativescript": {
-    "id": "org.nativescript.rhDemo",
+    "id": "com.mahota.agnus",
     "tns-android": {
       "version": "6.4.1"
     },
@@ -13,10 +13,10 @@
   "repository": "<fill-your-repository-here>",
   "dependencies": {
     "@nativescript/theme": "~2.3.0",
-    "nativescript-fingerprint-auth": "^7.0.2",
     "nativescript-geolocation": "^5.1.0",
-    "nativescript-plugin-firebase": "^10.4.0",
+    "nativescript-plugin-firebase": "^10.5.0",
     "nativescript-ui-sidedrawer": "~8.0.0",
+    "nativescript-unit-test-runner": "^0.7.0",
     "nativescript-vue": "~2.4.0",
     "rxjs": "^6.4.0",
     "tns-core-modules": "~6.4.0"
@@ -25,6 +25,10 @@
     "@babel/core": "~7.1.0",
     "@babel/preset-env": "~7.1.0",
     "babel-loader": "~8.0.0",
+    "karma": "4.4.1",
+    "karma-jasmine": "3.1.0",
+    "karma-nativescript-launcher": "0.4.0",
+    "karma-webpack": "3.0.5",
     "nativescript-dev-webpack": "~1.5.0",
     "nativescript-vue-template-compiler": "~2.4.0",
     "node-sass": "^4.7.1",
