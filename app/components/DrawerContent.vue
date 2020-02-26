@@ -13,6 +13,11 @@
                         <Label col="1" text="Home" class="p-r-10"></Label>
                     </GridLayout>
 
+                    <GridLayout columns="auto, *" :class="'nt-drawer__list-item' + (selectedPage === 'Attendance' ? ' -selected': '')" @tap="onNavigationItemTap(Attendance)">
+                        <Label col="0" text.decode="&#xf21b;" class="nt-icon fas"></Label>
+                        <Label col="1" text="Attendance" class="p-r-10"></Label>
+                    </GridLayout>
+
                     <GridLayout columns="auto, *" :class="'nt-drawer__list-item' + (selectedPage === 'Browse' ? ' -selected': '')" @tap="onNavigationItemTap(Browse)">
                         <Label col="0" text.decode="&#xf1ea;" class="nt-icon far"></Label>
                         <Label col="1" text="Browse" class="p-r-10"></Label>
@@ -46,6 +51,7 @@
 
 <script>
     import Home from "./Home";
+    import Attendance from "./Attendance";
     import Browse from "./Browse";
     import Featured from "./Featured";
     import Search from "./Search";
@@ -63,6 +69,7 @@
         data () {
             return {
                 Home: Home,
+                Attendance:Attendance,
                 Browse: Browse,
                 Featured: Featured,
                 Search: Search,
@@ -73,6 +80,7 @@
         },
         components: {
             Home,
+            Attendance,
             Browse,
             Featured,
             Search,

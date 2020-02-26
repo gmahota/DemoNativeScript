@@ -37,19 +37,8 @@ import SelectedPageService from "../shared/selected-page-service";
 export default {
   data() {
     return {
-      message: "Fear not, young Skywalker"
+      message: "Attendance Management - Koila APP"
     };
-  },
-  created() {
-    // // wire up an 'onMessageClicked' callback
-    // inappmessaging.onMessageClicked(message => {
-    //   this.message = `Campaign ${message.campaignName} clicked`;
-    // });
-
-    // // 👉 .. and for fun, wire an 'onMessageImpression' callback so when know when the message is shown
-    // inappmessaging.onMessageImpression(message => {
-    //   this.message = `Campaign ${message.campaignName} seen`;
-    // });
   },
   mounted() {
     SelectedPageService.getInstance().updateSelectedPage("Home");
