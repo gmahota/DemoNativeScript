@@ -20,6 +20,10 @@ xmlns:tools="http://schemas.android.com/tools"
   	<uses-feature android:name="android.hardware.camera" android:required="false" />
  	<uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
 
+	<meta-data
+    android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+    android:value="ocr,face" />
+	
 	<uses-sdk android:minSdkVersion="23" android:targetSdkVersion="__APILEVEL__"/>
 	
 	<application

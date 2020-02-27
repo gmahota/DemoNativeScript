@@ -24,6 +24,17 @@
       <Label class="page__content-icon fas" text.decode="&#xf005;"></Label>
       <Label class="page__content-placeholder" :text="message"></Label>
       <Label class="message" :text="message" textWrap="true" horizontalAlignment="center"></Label>
+
+      <MLKitFaceDetection
+        width="260"
+        height="380"
+        detectionMode="accurate"
+        enableFaceTracking="true"
+        minimumFaceSize="0.2"
+        preferFrontCamera="true"
+        [torchOn]="torchOn"
+        (scanResult)="onFaceDetectionResult($event)"
+      ></MLKitFaceDetection>
     </GridLayout>
   </Page>
 </template>
@@ -31,10 +42,15 @@
 <script>
 import { inappmessaging } from "nativescript-plugin-firebase/inappmessaging";
 
+import { MLKitFaceDetection } from "nativescript-plugin-firebase/mlkit/facedetection";
+
 import * as utils from "~/shared/utils";
 import SelectedPageService from "../shared/selected-page-service";
 
 export default {
+  components: {
+    MLKitFaceDetection
+  },
   mounted() {
     SelectedPageService.getInstance().updateSelectedPage("DemoFireBase");
   },
@@ -54,6 +70,18 @@ export default {
     inappmessaging.onMessageImpression(message => {
       this.message = `Campaign ${message.campaignName} seen`;
     });
+
+    firebase.mlkit.facedetection
+      .detectFacesOnDevice({
+        image: imageSource, // a NativeScript Image or ImageSource, see the demo for examples
+        detectionMode: "accurate", // default "fast"
+        enableFaceTracking: true, // default false
+        minimumFaceSize: 0.25 // default 0.1 (which means the face must be at least 10% of the image)
+      })
+      .then(function(result) {
+        console.log(JSON.stringify(result.faces));
+      })
+      .catch(errorMessage => console.log("ML Kit error: " + errorMessage));
   },
   computed: {
     message() {

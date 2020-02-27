@@ -22,7 +22,6 @@ firebase.init({
     .then(() => console.log("Firebase initialized"))
     .catch(error => console.log("Error initializing Firebase: " + error));
 
-
 new Vue({
     render (h) {
         return h(

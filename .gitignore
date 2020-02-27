@@ -10,7 +10,7 @@ platforms/
 *.css
 
 #Android Nativescript - Google Services
-app/App_Resources/google-services.json
+app/App_Resources/Android/google-services.json
 
 # Logs
 logs
