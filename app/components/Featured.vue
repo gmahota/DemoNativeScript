@@ -1,56 +1,93 @@
 <template>
-    <Page class="page">
-        <ActionBar class="action-bar">
-            <!-- 
+  <Page class="page">
+    <ActionBar class="action-bar">
+      <!--
             Use the NavigationButton as a side-drawer button in Android
             because ActionItems are shown on the right side of the ActionBar
-            -->
-            <NavigationButton ios:visibility="collapsed" icon="res://menu" @tap="onDrawerButtonTap"></NavigationButton>
-            <!-- 
+      -->
+      <NavigationButton ios:visibility="collapsed" icon="res://menu" @tap="onDrawerButtonTap"></NavigationButton>
+      <!--
             Use the ActionItem for IOS with position set to left. Using the
             NavigationButton as a side-drawer button in iOS is not possible,
             because its function is to always navigate back in the application.
-            -->
-            <ActionItem icon="res://menu" 
-                android:visibility="collapsed" 
-                @tap="onDrawerButtonTap"
-                ios.position="left">
-            </ActionItem>
-            <Label class="action-bar-title" text="Featured"></Label>
-        </ActionBar>
+      -->
+      <ActionItem
+        icon="res://menu"
+        android:visibility="collapsed"
+        @tap="onDrawerButtonTap"
+        ios.position="left"
+      ></ActionItem>
+      <Label class="action-bar-title" text="Featured"></Label>
+    </ActionBar>
 
-        <GridLayout class="page__content">
-            <Label class="page__content-icon fas" text.decode="&#xf005;"></Label>
-            <Label class="page__content-placeholder" :text="message"></Label>
-        </GridLayout>
-    </Page>
+    <StackLayout class="nt-form">
+
+      <StackLayout class="nt-input">
+        <Button text="bt 1" @tap="doCheckAvailable" />
+        <Button text="bt 2" @tap="doCheckFingerprintsChanged" />
+      </StackLayout>
+    </StackLayout>
+  </Page>
 </template>
 
 <script>
-    import * as utils from "~/shared/utils";
-    import SelectedPageService from "../shared/selected-page-service";
+import * as utils from "~/shared/utils";
+import SelectedPageService from "../shared/selected-page-service";
 
-    export default {
-        mounted() {
-            SelectedPageService.getInstance().updateSelectedPage("Featured");
-        },
-        computed: {
-            message() {
-                return "<!-- Page content goes here -->";
-            }
-        },
-        methods: {
-            onDrawerButtonTap() {
-                utils.showDrawer();
-            }
-        }
-    };
+var fingerprintAuthPlugin = require("nativescript-fingerprint-auth");
+var fingerprintAuth = new fingerprintAuthPlugin.FingerprintAuth();
+
+export default {
+  mounted() {
+    SelectedPageService.getInstance().updateSelectedPage("Featured");
+  },
+  computed: {
+    message() {
+      return "<!-- Page content goes here -->";
+    }
+  },
+  methods: {
+    onDrawerButtonTap() {
+      utils.showDrawer();
+    },
+
+    doCheckAvailable() {
+      fingerprintAuth.available().then(function(avail) {
+        console.log("Available? " + avail);
+      });
+    },
+
+    doCheckFingerprintsChanged() {
+      fingerprintAuth
+        .verifyFingerprintWithCustomFallback({
+          message: "Scan yer finger", // optional, shown in the fingerprint dialog (default: 'Scan your finger').
+          fallbackMessage: "Enter PIN", // optional, the button label when scanning fails (default: 'Enter password').
+          authenticationValidityDuration: 10 // optional (used on Android, default 5)
+        })
+        .then(
+          () => {
+            console.log("Fingerprint was OK");
+          },
+          error => {
+            // when error.code === -3, the user pressed the button labeled with your fallbackMessage
+            console.log(
+              "Fingerprint NOT OK. Error code: " +
+                error.code +
+                ". Error message: " +
+                error.message
+            );
+          }
+        );
+    }
+  },
+  mounted() {}
+};
 </script>
 
 <style scoped lang="scss">
-    // Start custom common variables
-    @import '~@nativescript/theme/scss/variables/blue';
-    // End custom common variables
+// Start custom common variables
+@import "~@nativescript/theme/scss/variables/blue";
+// End custom common variables
 
-    // Custom styles
+// Custom styles
 </style>

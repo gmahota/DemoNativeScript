@@ -13,7 +13,10 @@
   "repository": "<fill-your-repository-here>",
   "dependencies": {
     "@nativescript/theme": "~2.3.0",
+    "nativescript-camera": "^4.5.0",
+    "nativescript-fingerprint-auth": "^7.0.2",
     "nativescript-geolocation": "^5.1.0",
+    "nativescript-imagepicker": "^7.1.0",
     "nativescript-plugin-firebase": "^10.5.0",
     "nativescript-ui-sidedrawer": "~8.0.0",
     "nativescript-unit-test-runner": "^0.7.0",
