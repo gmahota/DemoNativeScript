@@ -2,9 +2,9 @@
 
 // Uncomment to add recyclerview-v7 dependency
 dependencies {
-	implementation 'com.google.firebase:firebase-ml-vision:18.0.1'
+	implementation 'com.google.firebase:firebase-ml-vision:24.0.1'
 }
-
+apply plugin: 'com.google.gms.google-services'
 // If you want to add something to be applied before applying plugins' include.gradle files
 // e.g. project.ext.googlePlayServicesVersion = "15.0.1"
 // create a file named before-plugins.gradle in the current directory and place it there
@@ -24,6 +24,6 @@ android {
     noCompress "tflite"
   }
   project.ext {
-    googlePlayServicesVersion = "15.+"
+    googlePlayServicesVersion = "17.1.1"
   }
 }

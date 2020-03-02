@@ -13,6 +13,7 @@
   "repository": "<fill-your-repository-here>",
   "dependencies": {
     "@nativescript/theme": "~2.3.0",
+    "@nstudio/nativescript-camera-plus": "^3.0.7",
     "nativescript-camera": "^4.5.0",
     "nativescript-fingerprint-auth": "^7.0.2",
     "nativescript-geolocation": "^5.1.0",

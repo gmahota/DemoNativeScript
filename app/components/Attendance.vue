@@ -71,17 +71,21 @@ import {
   MLKitFaceDetection,
   detectFacesOnDevice
 } from "nativescript-plugin-firebase/mlkit/facedetection";
-import { MLKitObjectDetection } from "nativescript-plugin-firebase/mlkit/objectdetection";
+import {
+  MLKitObjectDetection,
+  detectObjects
+} from "nativescript-plugin-firebase/mlkit/objectdetection";
+
 import * as camera from "nativescript-camera";
 import { ImageAsset } from "tns-core-modules/image-asset";
 import { fromFile, ImageSource } from "tns-core-modules/image-source";
 import * as ImagePicker from "nativescript-imagepicker";
+import * as Geolocation from "nativescript-geolocation";
 //import { MLKitAutoML  } from "nativescript-plugin-firebase/mlkit/automl";
 
 const firebase = require("nativescript-plugin-firebase");
 const imageSource = require("tns-core-modules/image-source");
 
-const geolocation = require("nativescript-geolocation");
 const { Accuracy } = require("tns-core-modules/ui/enums");
 
 export default {
@@ -90,6 +94,8 @@ export default {
   },
   data() {
     return {
+      needLocation: false,
+      locationFailure: true,
       lat: "",
       lon: "",
       speed: "",
@@ -101,11 +107,12 @@ export default {
     };
   },
   methods: {
+    //ML KIT Face Recognation
     ondetectFacesOnDevice(imageSource) {
       detectFacesOnDevice({
         image: imageSource,
         detectionMode: "accurate",
-        enableFaceTracking: false,
+        enableFaceTracking: true,
         minimumFaceSize: 0.25
       })
         .then(function(result) {
@@ -125,8 +132,34 @@ export default {
           console.log("ML Kit error: " + errorMessage);
         });
     },
+    ondetectObjects(imageSource) {
+      detectObjects({
+        image: imageSource,
+        classify: true,
+        multiple: true
+      })
+        .then(function(result) {
+          alert({
+            title: `Result`,
+            message: JSON.stringify(result.objects),
+            okButtonText: "OK"
+          });
+        })
+        .catch(errorMessage => {
+          alert({
+            title: `Result`,
+            message: "ML Kit error: " + errorMessage,
+            okButtonText: "OK"
+          });
+
+          console.log("ML Kit error: " + errorMessage);
+        });
+    },
+
+    //Face Recognation
     reusePickedImage() {
       if (this.pickedImage) {
+        this.ondetectObjects(this.pickedImage);
         this.ondetectFacesOnDevice(this.pickedImage);
       }
     },
@@ -147,7 +180,8 @@ export default {
               new ImageSource().fromAsset(imageAsset).then(imageSource => {
                 this.pickedImage = imageSource;
                 // give the user some time to to see the picture
-                setTimeout(() => this.ondetectFacesOnDevice(imageSource), 700);
+                this.ondetectFacesOnDevice(this.pickedImage);
+                this.ondetectObjects(this.pickedImage);
               });
 
               //this.img = imageAsset;
@@ -193,8 +227,11 @@ export default {
             imageSource.setNativeSource(image);
             this.pickedImage = imageSource;
 
+            this.ondetectObjects(this.pickedImage);
+            this.ondetectFacesOnDevice(this.pickedImage);
+
             // give the user some time to to see the picture
-            setTimeout(() => this.ondetectFacesOnDevice(imageSource), 500);
+            //setTimeout(() => this.ondetectFacesOnDevice(imageSource), 500);
           });
         })
         .catch(e => {
@@ -204,75 +241,74 @@ export default {
     onDrawerButtonTap() {
       utils.showDrawer();
     },
+    //Object Recognation
+
+    //Object Recognation
     getLocation() {
-      geolocation
-        .getCurrentLocation({
-          desiredAccuracy: Accuracy.high,
-          maximumAge: 5000,
-          timeout: 20000
-        })
-        .then(res => {
-          var d = new Date();
-          this.lat = res.latitude;
-          this.lon = res.longitude;
-          this.speed = res.speed;
-          this.time =
-            d.getDate() +
-            "/" +
-            (d.getMonth() + 1) +
-            "/0" +
-            d.getFullYear() +
-            " " +
-            d.getHours() +
-            ":" +
-            d.getMinutes();
-          // get the address (REQUIRES YOUR OWN GOOGLE MAP API KEY!)
-          fetch(
-            "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
-              res.latitude +
-              "," +
-              res.longitude +
-              "&key=AIzaSyAHdHRPlDZfwVNhWBUYqFSzUvLSnddepsQ"
-          )
-            .then(response => response.json())
-            .then(r => {
-              this.addr = r.results[0].formatted_address;
-            });
+      try {
+        Geolocation.enableLocationRequest(true).then(() => {
+          Geolocation.isEnabled().then(isLocationEnabled => {
+            console.log("result is " + isLocationEnabled);
+            if (!isLocationEnabled) {
+              this.needLocation = false;
+              this.locationFailure = true;
+              // potentially do more then just end here...
+              return;
+            }
+
+            // MUST pass empty object!!
+            Geolocation.getCurrentLocation({})
+              .then(res => {
+                var d = new Date();
+                this.lat = res.latitude;
+                this.lon = res.longitude;
+                this.speed = res.speed;
+                this.time =
+                  d.getDate() +
+                  "/" +
+                  (d.getMonth() + 1) +
+                  "/0" +
+                  d.getFullYear() +
+                  " " +
+                  d.getHours() +
+                  ":" +
+                  d.getMinutes();
+                // get the address (REQUIRES YOUR OWN GOOGLE MAP API KEY!)
+                fetch(
+                  "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
+                    res.latitude +
+                    "," +
+                    res.longitude +
+                    "&key=AIzaSyAHdHRPlDZfwVNhWBUYqFSzUvLSnddepsQ"
+                )
+                  .then(response => response.json())
+                  .then(r => {
+                    this.addr = r.results[0].formatted_address;
+                  });
+              })
+              .catch(e => {
+                console.log("loc error", e);
+              });
+          });
         });
+      } catch (err) {
+        alert({
+          title: `Result`,
+          message: JSON.stringify(err),
+          okButtonText: "OK"
+        });
+      }
     }
   },
   mounted() {
     SelectedPageService.getInstance().updateSelectedPage("Attendance");
-
-    //geolocation.enableLocationRequest();
   },
   computed: {
     message() {
       return "<!-- Page content goes here -->";
     }
   },
-  created() {
-    // firebase.mlkit.objectdetection
-    //   .detectObjects({
-    //     image: imageSource, // a NativeScript Image or ImageSource, see the demo for examples
-    //     classify: true, // default false, attempts to classify the object(s) if true
-    //     multiple: true // default false, attempts to detect multiple objects (instead of only the most prominent one) when true
-    //   })
-    //   .then(function(result) {
-    //     console.log(JSON.stringify(result.objects));
-    //   })
-    //   .catch(errorMessage => console.log("ML Kit error: " + errorMessage));
-    // firebase.mlkit.automl
-    //   .labelImage({
-    //     localModelResourceFolder: "leftright",
-    //     image: imageSource,
-    //     confidenceThreshold: 0.6 // this will only return labels with at least 0.6 (60%) confidence. Default 0.5.
-    //   })
-    //   .then(function(result) {
-    //     console.log(JSON.stringify(result.labels));
-    //   })
-    //   .catch(errorMessage => console.log("ML Kit error: " + errorMessage));
-  }
+  created() {}
 };
 </script>
 
