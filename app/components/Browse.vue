@@ -1,12 +1,12 @@
 <template>
   <Page class="page">
     <ActionBar class="action-bar">
-      <!-- 
+      <!--
             Use the NavigationButton as a side-drawer button in Android
             because ActionItems are shown on the right side of the ActionBar
       -->
       <NavigationButton ios:visibility="collapsed" icon="res://menu" @tap="onDrawerButtonTap"></NavigationButton>
-      <!-- 
+      <!--
             Use the ActionItem for IOS with position set to left. Using the
             NavigationButton as a side-drawer button in iOS is not possible,
             because its function is to always navigate back in the application.
@@ -30,6 +30,13 @@
 <script>
 import * as utils from "~/shared/utils";
 import SelectedPageService from "../shared/selected-page-service";
+import { CameraPlus } from '@nstudio/nativescript-camera-plus';
+import { Observable } from '@nativescript/core/data/observable';
+import { ImageAsset } from '@nativescript/core/image-asset';
+import { ImageSource } from '@nativescript/core/image-source';
+import { screen } from '@nativescript/core/platform';
+import { Frame } from '@nativescript/core/ui/frame';
+import { Image } from '@nativescript/core/ui/image';
 
 export default {
   mounted() {
