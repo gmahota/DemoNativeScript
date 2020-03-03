@@ -21,7 +21,6 @@
     </ActionBar>
 
     <StackLayout class="nt-form">
-
       <StackLayout class="nt-input">
         <Button text="bt 1" @tap="doCheckAvailable" />
         <Button text="bt 2" @tap="doCheckFingerprintsChanged" />
@@ -78,6 +77,24 @@ export default {
             );
           }
         );
+    },
+
+    doVerifyFingerprintWithCustomFallback() {
+      fingerprintAuth
+        .verifyFingerprintWithCustomFallback({
+          message: "Scan yer finger", // optional
+          fallbackMessage: "Enter PIN", // optional
+          authenticationValidityDuration: 10 // Android
+        })
+        .then(() => this.set("status", "Biometric ID OK"))
+        .catch(error => {
+          this.set("status", "Biometric ID NOT OK: " + JSON.stringify(error));
+          alert({
+            title: "Biometric ID NOT OK",
+            message: error.code === -3 ? "Show custom fallback" : error.message,
+            okButtonText: "Mmkay"
+          });
+        });
     }
   },
   mounted() {}
